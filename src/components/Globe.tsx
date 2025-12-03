@@ -1,27 +1,62 @@
 import { Canvas, useFrame, useLoader } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import * as THREE from "three";
+import { races2024 } from "../data/races";
+import type { Race } from "../data/types";
+import RaceMarker from "./RaceMarker";
 
-function Earth() {
-  const meshRef = useRef<THREE.Mesh>(null);
+const GLOBE_RADIUS = 2;
+
+interface EarthProps {
+  onSelectRace: (race: Race | null) => void;
+  selectedRace: Race | null;
+  isHovering: boolean;
+  onHover: (hovered: boolean) => void;
+}
+
+function Earth({ onSelectRace, selectedRace, isHovering, onHover }: EarthProps) {
+  const groupRef = useRef<THREE.Group>(null);
   const texture = useLoader(THREE.TextureLoader, "/earth.jpg");
 
   useFrame(() => {
-    if (meshRef.current) {
-      meshRef.current.rotation.y += 0.001;
+    if (groupRef.current && !selectedRace && !isHovering) {
+      groupRef.current.rotation.y += 0.001;
     }
   });
 
   return (
-    <mesh ref={meshRef}>
-      <sphereGeometry args={[2, 64, 64]} />
-      <meshStandardMaterial map={texture} />
-    </mesh>
+    <group ref={groupRef}>
+      <mesh onClick={() => onSelectRace(null)}>
+        <sphereGeometry args={[GLOBE_RADIUS, 64, 64]} />
+        <meshStandardMaterial map={texture} />
+      </mesh>
+      {races2024.map((race) => (
+        <RaceMarker
+          key={race.id}
+          race={race}
+          radius={GLOBE_RADIUS + 0.01}
+          onSelect={onSelectRace}
+          onHover={onHover}
+          isSelected={selectedRace?.id === race.id}
+        />
+      ))}
+    </group>
   );
 }
 
-export default function Globe() {
+interface GlobeProps {
+  onSelectRace?: (race: Race | null) => void;
+  selectedRace?: Race | null;
+}
+
+export default function Globe({ onSelectRace, selectedRace }: GlobeProps) {
+  const [internalSelected, setInternalSelected] = useState<Race | null>(null);
+  const [isHovering, setIsHovering] = useState(false);
+  
+  const handleSelect = onSelectRace ?? setInternalSelected;
+  const currentSelected = selectedRace ?? internalSelected;
+
   return (
     <Canvas
       camera={{ position: [0, 0, 5], fov: 45 }}
@@ -29,7 +64,12 @@ export default function Globe() {
     >
       <ambientLight intensity={0.3} />
       <directionalLight position={[5, 3, 5]} intensity={1.5} />
-      <Earth />
+      <Earth 
+        onSelectRace={handleSelect} 
+        selectedRace={currentSelected}
+        isHovering={isHovering}
+        onHover={setIsHovering}
+      />
       <OrbitControls
         enableZoom={true}
         enablePan={false}

@@ -1,37 +1,8 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Globe from "../components/Globe";
+import App from "../components/App";
 ---
 
 <Layout title="formulaco2 - F1 Carbon Footprint">
-  <div class="app-layout">
-    <aside class="panel panel-left">
-      <h1>formulaco2</h1>
-      <div class="card">
-        <div class="card-title">2024 Season Total</div>
-        <div class="stat-value">168,720<span class="stat-unit">tCO₂e</span></div>
-      </div>
-      <div class="card">
-        <div class="card-title">Races</div>
-        <div class="stat-value">24</div>
-      </div>
-      <div class="card">
-        <div class="card-title">vs 2018 Baseline</div>
-        <div class="stat-value" style="color: var(--color-success);">
-          -26%
-        </div>
-      </div>
-    </aside>
-
-    <main class="globe-container">
-      <Globe client:only="react" />
-    </main>
-
-    <aside class="panel panel-right">
-      <h2>Selected Race</h2>
-      <div class="card">
-        <div class="card-title">Click a marker to view details</div>
-      </div>
-    </aside>
-  </div>
+  <App client:only="react" />
 </Layout>
