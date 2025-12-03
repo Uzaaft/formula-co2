@@ -1,5 +1,5 @@
 import { useMemo, useRef } from "react";
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { Line } from "@react-three/drei";
 import { races2024 } from "../data/races";
@@ -13,6 +13,8 @@ interface ArrowHeadProps {
   position: THREE.Vector3;
   direction: THREE.Vector3;
 }
+
+const BASE_CAMERA_DISTANCE = 8;
 
 function createArcPoints(
   start: THREE.Vector3,
@@ -44,14 +46,26 @@ function createArcPoints(
 }
 
 function ArrowHead({ position, direction }: ArrowHeadProps) {
+  const meshRef = useRef<THREE.Mesh>(null);
+  const { camera } = useThree();
+  
   const quaternion = useMemo(() => {
     const q = new THREE.Quaternion();
     q.setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction.clone().normalize());
     return q;
   }, [direction]);
 
+  useFrame(() => {
+    if (meshRef.current) {
+      const cameraDistance = camera.position.length();
+      const zoomScale = Math.pow(cameraDistance / BASE_CAMERA_DISTANCE, 1.8);
+      const clampedScale = Math.max(0.15, Math.min(1.5, zoomScale));
+      meshRef.current.scale.setScalar(clampedScale);
+    }
+  });
+
   return (
-    <mesh position={position} quaternion={quaternion}>
+    <mesh ref={meshRef} position={position} quaternion={quaternion}>
       <coneGeometry args={[0.02, 0.06, 6]} />
       <meshBasicMaterial color="#60a5fa" transparent opacity={0.8} />
     </mesh>
