@@ -61,7 +61,7 @@ export default function Globe({ onSelectRace, selectedRace }: GlobeProps) {
 
   return (
     <Canvas
-      camera={{ position: [0, 0, 5], fov: 45 }}
+      camera={{ position: [0, 0, 8], fov: 45 }}
       style={{ width: "100%", height: "100%" }}
     >
       <ambientLight intensity={0.3} />
