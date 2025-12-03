@@ -1,16 +1,40 @@
 ---
-
+import Layout from "../layouts/Layout.astro";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout title="formulaco2 - F1 Carbon Footprint">
+  <div class="app-layout">
+    <aside class="panel panel-left">
+      <h1>formulaco2</h1>
+      <div class="card">
+        <div class="card-title">2024 Season Total</div>
+        <div class="stat-value">168,720<span class="stat-unit">tCO₂e</span></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Races</div>
+        <div class="stat-value">24</div>
+      </div>
+      <div class="card">
+        <div class="card-title">vs 2018 Baseline</div>
+        <div class="stat-value" style="color: var(--color-success);">
+          -26%
+        </div>
+      </div>
+    </aside>
+
+    <main class="globe-container">
+      <div
+        style="display: flex; align-items: center; justify-content: center; height: 100%; color: var(--color-text-muted);"
+      >
+        Globe will render here
+      </div>
+    </main>
+
+    <aside class="panel panel-right">
+      <h2>Selected Race</h2>
+      <div class="card">
+        <div class="card-title">Click a marker to view details</div>
+      </div>
+    </aside>
+  </div>
+</Layout>
