@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import Globe from "../components/Globe";
 ---
 
 <Layout title="formulaco2 - F1 Carbon Footprint">
@@ -23,11 +24,7 @@ import Layout from "../layouts/Layout.astro";
     </aside>
 
     <main class="globe-container">
-      <div
-        style="display: flex; align-items: center; justify-content: center; height: 100%; color: var(--color-text-muted);"
-      >
-        Globe will render here
-      </div>
+      <Globe client:only="react" />
     </main>
 
     <aside class="panel panel-right">
