@@ -3,23 +3,28 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "astro dev",
+    "astro": "astro",
     "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro"
+    "cf-typegen": "wrangler types",
+    "dev": "astro dev",
+    "preview": "astro preview"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^12.6.12",
     "@astrojs/react": "^4.4.2",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.4.2",
+    "@tailwindcss/vite": "^4.1.17",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "@types/three": "^0.181.0",
     "astro": "^5.16.3",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "three": "^0.181.2",
+    "tailwindcss": "^4.1.17",
+    "three": "^0.181.2"
+  },
+  "devDependencies": {
     "wrangler": "^4.51.0"
   }
 }
