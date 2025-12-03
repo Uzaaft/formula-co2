@@ -12,6 +12,7 @@ export default function App() {
     <div className="app-layout">
       <aside className="panel panel-left">
         <h1>formulaco2</h1>
+        <p className="subtitle">F1 Carbon Footprint Visualized</p>
         <div className="card">
           <div className="card-title">2024 Season Total</div>
           <div className="stat-value">
@@ -37,16 +38,16 @@ export default function App() {
       <aside className="panel panel-right">
         <h2>Selected Race</h2>
         {selectedRace && emissions ? (
-          <>
-            <div className="card">
+          <div key={selectedRace.id}>
+            <div className="card card-animate">
               <div className="card-title">{selectedRace.country}</div>
               <div className="stat-value" style={{ fontSize: "1.25rem" }}>
                 {selectedRace.name}
               </div>
-              <div style={{ color: "var(--color-text-muted)", marginTop: "0.5rem" }}>
+              <div style={{ color: "var(--color-text-muted)", marginTop: "0.75rem", fontSize: "0.9rem" }}>
                 {selectedRace.circuit}
               </div>
-              <div style={{ color: "var(--color-text-muted)", fontSize: "0.875rem" }}>
+              <div style={{ color: "var(--color-text-muted)", fontSize: "0.8rem", marginTop: "0.25rem" }}>
                 {new Date(selectedRace.date).toLocaleDateString("en-US", {
                   month: "long",
                   day: "numeric",
@@ -54,42 +55,42 @@ export default function App() {
                 })}
               </div>
             </div>
-            <div className="card">
+            <div className="card card-animate">
               <div className="card-title">Race Weekend Emissions</div>
               <div className="stat-value">
                 {total.toLocaleString()}
                 <span className="stat-unit">tCO₂e</span>
               </div>
             </div>
-            <div className="card">
+            <div className="card card-animate">
               <div className="card-title">Breakdown</div>
-              <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem", marginTop: "0.5rem" }}>
-                <div style={{ display: "flex", justifyContent: "space-between" }}>
-                  <span style={{ color: "var(--color-text-muted)" }}>Logistics</span>
-                  <span>{emissions.logistics.toLocaleString()} tCO₂e</span>
+              <div style={{ marginTop: "0.5rem" }}>
+                <div className="breakdown-row">
+                  <span className="breakdown-label">Logistics</span>
+                  <span className="breakdown-value">{emissions.logistics.toLocaleString()} tCO₂e</span>
                 </div>
-                <div style={{ display: "flex", justifyContent: "space-between" }}>
-                  <span style={{ color: "var(--color-text-muted)" }}>Team Travel</span>
-                  <span>{emissions.teamTravel.toLocaleString()} tCO₂e</span>
+                <div className="breakdown-row">
+                  <span className="breakdown-label">Team Travel</span>
+                  <span className="breakdown-value">{emissions.teamTravel.toLocaleString()} tCO₂e</span>
                 </div>
-                <div style={{ display: "flex", justifyContent: "space-between" }}>
-                  <span style={{ color: "var(--color-text-muted)" }}>Event Ops</span>
-                  <span>{emissions.eventOperations.toLocaleString()} tCO₂e</span>
+                <div className="breakdown-row">
+                  <span className="breakdown-label">Event Ops</span>
+                  <span className="breakdown-value">{emissions.eventOperations.toLocaleString()} tCO₂e</span>
                 </div>
-                <div style={{ display: "flex", justifyContent: "space-between" }}>
-                  <span style={{ color: "var(--color-text-muted)" }}>Broadcast</span>
-                  <span>{emissions.broadcast.toLocaleString()} tCO₂e</span>
+                <div className="breakdown-row">
+                  <span className="breakdown-label">Broadcast</span>
+                  <span className="breakdown-value">{emissions.broadcast.toLocaleString()} tCO₂e</span>
                 </div>
-                <div style={{ display: "flex", justifyContent: "space-between" }}>
-                  <span style={{ color: "var(--color-text-muted)" }}>Cars on Track</span>
-                  <span>{emissions.carEmissions.toLocaleString()} tCO₂e</span>
+                <div className="breakdown-row">
+                  <span className="breakdown-label">Cars on Track</span>
+                  <span className="breakdown-value">{emissions.carEmissions.toLocaleString()} tCO₂e</span>
                 </div>
               </div>
             </div>
-          </>
+          </div>
         ) : (
           <div className="card">
-            <div className="card-title">Click a marker to view details</div>
+            <div className="card-title" style={{ marginBottom: 0 }}>Click a marker to view details</div>
           </div>
         )}
       </aside>
