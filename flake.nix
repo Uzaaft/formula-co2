@@ -15,7 +15,6 @@
             pkgs.nodejs_22
             pkgs.nodePackages.pnpm
             pkgs.nodePackages.typescript
-            pkgs.nodePackages.typescript-go
           ];
         };
       }
