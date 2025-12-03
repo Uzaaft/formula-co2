@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import type { Race } from "../data/types";
 
@@ -10,6 +10,8 @@ interface RaceMarkerProps {
   onHover: (hovered: boolean) => void;
   isSelected: boolean;
 }
+
+const BASE_CAMERA_DISTANCE = 8;
 
 function latLngToVector3(lat: number, lng: number, radius: number): THREE.Vector3 {
   const phi = (90 - lat) * (Math.PI / 180);
@@ -26,24 +28,30 @@ export default function RaceMarker({ race, radius, onSelect, onHover, isSelected
   const [hovered, setHovered] = useState(false);
   const meshRef = useRef<THREE.Mesh>(null);
   const glowRef = useRef<THREE.Mesh>(null);
+  const groupRef = useRef<THREE.Group>(null);
   const currentSize = useRef(0.04);
   const currentGlowSize = useRef(0.08);
+  const { camera } = useThree();
 
   const position = latLngToVector3(race.lat, race.lng, radius);
-  const targetSize = isSelected ? 0.06 : hovered ? 0.05 : 0.04;
-  const targetGlowSize = isSelected ? 0.14 : hovered ? 0.12 : 0.08;
-  const glowOpacity = isSelected ? 0.4 : hovered ? 0.3 : 0.15;
+  const targetSize = isSelected ? 0.07 : hovered ? 0.06 : 0.05;
+  const targetGlowSize = isSelected ? 0.16 : hovered ? 0.14 : 0.12;
+  const glowOpacity = isSelected ? 0.6 : hovered ? 0.5 : 0.35;
   const color = isSelected ? "#ef4444" : hovered ? "#f59e0b" : "#3b82f6";
 
   useFrame(() => {
+    const cameraDistance = camera.position.length();
+    const zoomScale = Math.pow(cameraDistance / BASE_CAMERA_DISTANCE, 1.8);
+    const clampedScale = Math.max(0.15, Math.min(1.5, zoomScale));
+    
     currentSize.current += (targetSize - currentSize.current) * 0.15;
     currentGlowSize.current += (targetGlowSize - currentGlowSize.current) * 0.15;
     
     if (meshRef.current) {
-      meshRef.current.scale.setScalar(currentSize.current / 0.04);
+      meshRef.current.scale.setScalar((currentSize.current / 0.04) * clampedScale);
     }
     if (glowRef.current) {
-      glowRef.current.scale.setScalar(currentGlowSize.current / 0.08);
+      glowRef.current.scale.setScalar((currentGlowSize.current / 0.08) * clampedScale);
     }
   });
 
