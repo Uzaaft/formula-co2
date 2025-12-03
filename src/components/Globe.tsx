@@ -5,6 +5,7 @@ import * as THREE from "three";
 import { races2024 } from "../data/races";
 import type { Race } from "../data/types";
 import RaceMarker from "./RaceMarker";
+import TravelArcs from "./TravelArcs";
 
 const GLOBE_RADIUS = 2;
 
@@ -31,6 +32,7 @@ function Earth({ onSelectRace, selectedRace, isHovering, onHover }: EarthProps) 
         <sphereGeometry args={[GLOBE_RADIUS, 64, 64]} />
         <meshStandardMaterial map={texture} />
       </mesh>
+      <TravelArcs radius={GLOBE_RADIUS + 0.005} />
       {races2024.map((race) => (
         <RaceMarker
           key={race.id}
